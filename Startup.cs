@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using angular_server.Extensions;
+using angular_server.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,7 +20,36 @@ namespace angular_server
     public class Startup
     {
         
-        private StaticServer _frontEndServer = new StaticServer("root").ServeForAnguler();
+        private readonly StaticServer _frontEndServer = new StaticServer("root").ServeForAnguler();
+
+        public Startup()
+        {
+            var myRectory = new FileInfo(this.GetType().Assembly.Location)
+                .Directory.FullName;
+
+            var proxyFilePath = Path.Join(myRectory, "Proxies.json");
+
+            if (!File.Exists(proxyFilePath))
+            {
+                new ProxyList
+                {
+                    Proxies = new List<Proxy>
+                    {
+                        new Proxy
+                        {
+                            DisplayName = "Example",
+                            TargetHost = "http://localhost/",
+                            UriStarts = new List<string>()
+                        }
+                    }
+                }.Save(proxyFilePath);
+            }
+
+            var proxyList = new ProxyList().Load(proxyFilePath);
+
+            _frontEndServer.UseProxy(proxyList);
+        }
+        
         
         public Startup(IConfiguration configuration)
         {
