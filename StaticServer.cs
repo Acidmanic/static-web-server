@@ -52,11 +52,14 @@ namespace angular_server
             if (!Directory.Exists(_frontDirectory))
             {
                 Directory.CreateDirectory(_frontDirectory);
-
-
-                File.WriteAllText(_indexFile,
-                    "<H1>Hello!, Apparently I'm being Updated! will be back soon! :D </H1>");
             }
+            
+            if (!File.Exists(_indexFile))
+            {
+                File.WriteAllText(_indexFile,
+                    "<H1>Hello!, Apparently I'm being Updated! will be back soon! :D </H1>");    
+            }
+            
 
             var fileProvider = new PhysicalFileProvider(_frontDirectory);
 
