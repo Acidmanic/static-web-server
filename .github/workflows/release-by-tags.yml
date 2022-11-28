@@ -28,11 +28,12 @@ jobs:
     needs: [Build_Linux,Build_Windows]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/download-artifact@master
-      with:
-        name: publish-binaries
-        path: ${{ github.workspace }}/publish
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "${{ github.workspace }}/publish/win10-x64.zip,${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restoring artifacts
+      - uses: actions/download-artifact@master
+        with:
+          name: publish-binaries
+          path: ${{ github.workspace }}/publish
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ github.workspace }}/publish/win10-x64.zip,${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
