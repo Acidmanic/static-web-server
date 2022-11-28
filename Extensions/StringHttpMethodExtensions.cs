@@ -1,6 +1,6 @@
 using System.Net.Http;
 
-namespace angular_server.Extensions
+namespace StaticWebServer.Extensions
 {
     public static class StringHttpMethodExtensions
     {

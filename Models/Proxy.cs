@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace angular_server.Models
+namespace StaticWebServer.Models
 {
     public class Proxy
     {

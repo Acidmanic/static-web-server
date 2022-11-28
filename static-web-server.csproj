@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>angular_server</RootNamespace>
+    <RootNamespace>StaticWebServer</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

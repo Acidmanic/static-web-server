@@ -3,7 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace angular_server.Extensions
+namespace StaticWebServer.Extensions
 {
     public static class ObjectJsonExtensions
     {

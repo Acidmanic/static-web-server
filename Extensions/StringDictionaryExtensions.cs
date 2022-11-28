@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace angular_server.Extensions
+namespace StaticWebServer.Extensions
 {
     public static class StringDictionaryExtensions
     {

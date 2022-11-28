@@ -3,15 +3,15 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
-using angular_server.Extensions;
-using angular_server.Models;
+using StaticWebServer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
+using StaticWebServer.Models;
 
-namespace angular_server
+namespace StaticWebServer
 {
     public class StaticServer
     {
