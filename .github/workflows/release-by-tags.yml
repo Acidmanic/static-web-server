@@ -12,5 +12,5 @@ jobs:
       - run: ${{ github.workspace }}/publish.sh
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
+          artifacts: "${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip,${{ github.workspace }}/publish/win10-x64.zip"
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -17,3 +17,4 @@ publish_for_runtime(){
 
 publish_for_runtime "debian.8-x64"
 publish_for_runtime "linux-arm"
+publish_for_runtime "win10-x64"
