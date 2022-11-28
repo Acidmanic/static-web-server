@@ -8,8 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+
       - run: ${{ github.workspace }}/publish.sh
+
       - uses: actions/upload-artifact@master
         with:
          name: linux-publish
@@ -23,8 +25,11 @@ jobs:
         with:
          name: linux-publish
          path: ${{ github.workspace }}/publish
-        uses: actions/checkout@v2
+
+      - uses: actions/checkout@v2
+
       - run: ${{ github.workspace }}/publish.bat
+      
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "${{ github.workspace }}/publish/win10-x64.zip,${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
