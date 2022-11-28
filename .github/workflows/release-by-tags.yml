@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - run: ${{ github.workspace }}/publish.sh
       - uses: actions/upload-artifact@master
         with:
@@ -18,7 +18,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Check out repository code
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - run: ${{ github.workspace }}/publish.bat
       - uses: actions/upload-artifact@master
         with:
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Restoring artifacts
-      - uses: actions/download-artifact@master
+        uses: actions/download-artifact@master
         with:
           name: publish-binaries
           path: ${{ github.workspace }}/publish
