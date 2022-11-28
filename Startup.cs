@@ -56,6 +56,12 @@ namespace angular_server
             var proxyList = new ProxyList().Load(proxyFilePath);
 
             _frontEndServer.UseProxy(proxyList);
+
+            var spaSupportString = Configuration["SpaSupport"]?.Trim().ToLower() ?? "true";
+
+            var spaSupport = spaSupportString == "true" || spaSupportString == "yes";
+
+            _frontEndServer.SupportSpa(spaSupport);
         }
 
         public IConfiguration Configuration { get; }
@@ -75,8 +81,6 @@ namespace angular_server
             }
 
             app.UseHttpsRedirection();
-            
-            _frontEndServer.ServeForAngular();
             
             _frontEndServer.ConfigurePreRouting(app, env);
 

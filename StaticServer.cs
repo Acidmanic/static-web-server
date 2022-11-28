@@ -64,7 +64,7 @@ namespace angular_server
             return this;
         }
 
-        public StaticServer ServeForAngular(bool serveAngular = true)
+        public StaticServer SupportSpa(bool serveAngular = true)
         {
             _serveForAngular = serveAngular;
 
