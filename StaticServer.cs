@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
 using angular_server.Extensions;
@@ -16,9 +15,9 @@ namespace angular_server
 {
     public class StaticServer
     {
-        private readonly string _servingDirectoryName;
+        private string _servingDirectoryName;
 
-        private readonly string _defaultFile;
+        private string _defaultFile;
 
         private string _frontDirectory;
 
@@ -26,9 +25,7 @@ namespace angular_server
 
         private bool _serveForAngular = false;
 
-
         private ProxyList _proxyList = new ProxyList();
-
 
         public StaticServer(string servingDirectoryName, string defaultFile)
         {
@@ -45,16 +42,31 @@ namespace angular_server
         {
         }
 
-        public StaticServer ServeForAnguler()
-        {
-            _serveForAngular = true;
-
-            return this;
-        }
 
         public StaticServer UseProxy(ProxyList proxies)
         {
             _proxyList = proxies;
+
+            return this;
+        }
+
+        public StaticServer SetContentRoot(string contentRoot)
+        {
+            _servingDirectoryName = contentRoot;
+
+            return this;
+        }
+
+        public StaticServer SetDefaultFile(string defaultFile)
+        {
+            _defaultFile = defaultFile;
+
+            return this;
+        }
+
+        public StaticServer ServeForAngular(bool serveAngular = true)
+        {
+            _serveForAngular = serveAngular;
 
             return this;
         }
@@ -201,7 +213,7 @@ namespace angular_server
                     Console.WriteLine(e);
                 }
             }
-            
+
             context.Response.StatusCode = (int)response.StatusCode;
 
             var responseContent = await response.Content.ReadAsByteArrayAsync();

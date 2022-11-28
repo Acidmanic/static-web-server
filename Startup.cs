@@ -20,11 +20,19 @@ namespace angular_server
     public class Startup
     {
         
-        private readonly StaticServer _frontEndServer = new StaticServer("root").ServeForAnguler();
+        private readonly StaticServer _frontEndServer = new StaticServer();
 
-        public Startup()
+        
+        public Startup(IConfiguration configuration)
         {
-            var myRectory = new FileInfo(this.GetType().Assembly.Location)
+            Configuration = configuration;
+            
+            var contentRoot = Configuration["ContentRootDirectory"] ?? "root";
+
+            _frontEndServer.SetContentRoot(contentRoot);
+            
+            var myRectory = new FileInfo(this.GetType()
+                    .Assembly.Location)
                 .Directory.FullName;
 
             var proxyFilePath = Path.Join(myRectory, "Proxies.json");
@@ -49,12 +57,6 @@ namespace angular_server
 
             _frontEndServer.UseProxy(proxyList);
         }
-        
-        
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
 
         public IConfiguration Configuration { get; }
 
@@ -73,6 +75,8 @@ namespace angular_server
             }
 
             app.UseHttpsRedirection();
+            
+            _frontEndServer.ServeForAngular();
             
             _frontEndServer.ConfigurePreRouting(app, env);
 
