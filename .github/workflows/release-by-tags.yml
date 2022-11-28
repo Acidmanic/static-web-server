@@ -4,7 +4,7 @@ on:
     tags:
       - '*'
 jobs:
-  Deploy_Project:
+  Deploy_Project_Linux:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -12,5 +12,15 @@ jobs:
       - run: ${{ github.workspace }}/publish.sh
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip,${{ github.workspace }}/publish/win10-x64.zip"
+          artifacts: "${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
+  Deploy_Project_Windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - run: ${{ github.workspace }}/publish.bat
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ github.workspace }}/publish/win10-x64.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
