@@ -168,10 +168,21 @@ namespace angular_server
 
         private async Task PerformProxy(HttpContext context, Proxy matchedValue)
         {
+
+
+            var queryString = context.Request.QueryString.Value;
+
+            if (!string.IsNullOrWhiteSpace(queryString))
+            {
+                queryString = "?" + queryString;
+            }
+            
             var request = new HttpRequestMessage()
             {
                 Method = context.Request.Method.ToHttpMethod(),
-                RequestUri = new Uri(context.Request.Path.ToString(), UriKind.Relative),
+                RequestUri = new Uri(context.Request.Path.ToString()
+                    + queryString
+                    , UriKind.Relative),
             };
 
             request.Content = new StreamContent(context.Request.Body);
