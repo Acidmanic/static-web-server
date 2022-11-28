@@ -4,33 +4,35 @@ on:
     tags:
       - '*'
 jobs:
-  Deploy_Project_Linux:
+  Build_Linux:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
       - uses: actions/checkout@v2
-
       - run: ${{ github.workspace }}/publish.sh
-
       - uses: actions/upload-artifact@master
         with:
-         name: linux-publish
+         name: publish-binaries
          path: ${{ github.workspace }}/publish
-  Deploy_Project_Windows:
-    needs: Deploy_Project_Linux
+  Build_Windows:
     runs-on: windows-latest
     steps:
       - name: Check out repository code
+      - uses: actions/checkout@v2
+      - run: ${{ github.workspace }}/publish.bat
       - uses: actions/upload-artifact@master
         with:
-         name: linux-publish
+         name: publish-binaries
          path: ${{ github.workspace }}/publish
-
-      - uses: actions/checkout@v2
-
-      - run: ${{ github.workspace }}/publish.bat
-      
-      - uses: ncipollo/release-action@v1
+  Deploy_Artifacts:
+    needs: [Build_Linux,Build_Windows]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: publish-binaries
+        path: ${{ github.workspace }}/publish
+    - uses: ncipollo/release-action@v1
         with:
           artifacts: "${{ github.workspace }}/publish/win10-x64.zip,${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
