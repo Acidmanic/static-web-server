@@ -1,7 +1,6 @@
 
 
 
-rmdir publish /s /q
 set RUNTIME=win10-x64
 set OUTPUT=publish\%RUNTIME%
 

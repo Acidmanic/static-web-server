@@ -10,19 +10,22 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: ${{ github.workspace }}/publish.sh
-      - uses: ncipollo/release-action@v1
+      - uses: actions/upload-artifact@master
         with:
-          artifacts: "${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: linux-release
+         name: linux-publish
+         path: ${{ github.workspace }}/publish
   Deploy_Project_Windows:
+    needs: Deploy_Project_Linux
     runs-on: windows-latest
     steps:
       - name: Check out repository code
+      - uses: actions/upload-artifact@master
+        with:
+         name: linux-publish
+         path: ${{ github.workspace }}/publish
         uses: actions/checkout@v2
       - run: ${{ github.workspace }}/publish.bat
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.workspace }}/publish/win10-x64.zip"
+          artifacts: "${{ github.workspace }}/publish/win10-x64.zip,${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: windows-release
