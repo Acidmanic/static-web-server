@@ -31,8 +31,9 @@ jobs:
       - name: Restoring linux artifacts
         uses: actions/download-artifact@master
         with:
+          name:
           path: ${{ github.workspace }}/publish
-	  merge-multiple: true
+          merge-multiple: true
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "${{ github.workspace }}/publish/win10-x64.zip,${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
