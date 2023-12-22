@@ -31,9 +31,6 @@ jobs:
       - name: Restoring linux artifacts
         uses: actions/download-artifact@master
         with:
-          name: 
-		- publish-linux-binaries
-		- publish-windows-binaries
           path: ${{ github.workspace }}/publish
 	  merge-multiple: true
       - uses: ncipollo/release-action@v1
