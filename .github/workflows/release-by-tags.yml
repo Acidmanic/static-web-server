@@ -12,7 +12,7 @@ jobs:
       - run: ${{ github.workspace }}/publish.sh
       - uses: actions/upload-artifact@master
         with:
-         name: publish-binaries
+         name: publish-linux-binaries
          path: ${{ github.workspace }}/publish
   Build_Windows:
     runs-on: windows-latest
@@ -22,18 +22,27 @@ jobs:
       - run: ${{ github.workspace }}/publish.bat
       - uses: actions/upload-artifact@master
         with:
-         name: publish-binaries
+         name: publish-windows-binaries
          path: ${{ github.workspace }}/publish
   Deploy_Artifacts:
     needs: [Build_Linux,Build_Windows]
     runs-on: ubuntu-latest
     steps:
-      - name: Restoring artifacts
+      - name: Restoring linux artifacts
         uses: actions/download-artifact@master
         with:
-          name: publish-binaries
+          name: publish-linux-binaries
           path: ${{ github.workspace }}/publish
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.workspace }}/publish/win10-x64.zip,${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
+          artifacts: "${{ github.workspace }}/publish/debian.8-x64.zip,${{ github.workspace }}/publish/linux-arm.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restoring windows artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: publish-windows-binaries
+          path: ${{ github.workspace }}/publish
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ github.workspace }}/publish/win10-x64.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
